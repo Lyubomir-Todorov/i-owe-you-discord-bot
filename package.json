@@ -1,0 +1,54 @@
+{
+  "name": "i-owe-you-discord-bot",
+  "version": "1.0.0",
+  "description": "A discord bot that keeps track of expenses in Google Sheets",
+  "main": "index.ts",
+  "dependencies": {
+    "asynckit": "^0.4.0",
+    "axios": "^1.5.0",
+    "busboy": "^1.6.0",
+    "combined-stream": "^1.0.8",
+    "delayed-stream": "^1.0.0",
+    "discord.js": "^14.14.1",
+    "dotenv": "^16.4.5",
+    "fast-deep-equal": "^3.1.3",
+    "follow-redirects": "^1.15.2",
+    "form-data": "^4.0.0",
+    "google-auth-library": "^8.9.0",
+    "google-spreadsheet": "^4.1.1",
+    "lodash": "^4.17.21",
+    "lodash.snakecase": "^4.1.1",
+    "magic-bytes.js": "^1.0.15",
+    "mime-db": "^1.52.0",
+    "mime-types": "^2.1.35",
+    "proxy-from-env": "^1.1.0",
+    "streamsearch": "^1.1.0",
+    "ts-mixer": "^6.0.3",
+    "undici": "^5.22.1",
+    "ws": "^8.13.0"
+  },
+  "devDependencies": {
+    "@types/node": "^20.5.8",
+    "eslint": "^8.48.0",
+    "ts-node": "^10.9.1",
+    "tslib": "^2.6.2",
+    "tsup": "^8.0.2",
+    "tsx": "^4.7.2",
+    "typescript": "^5.4.5"
+  },
+  "scripts": {
+    "dev": "tsx watch src/index.ts",
+    "start": "node dist/index.js",
+    "build": "tsup src/index.ts --minify"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Lyubomir-Todorov/i-owe-you-discord-bot.git"
+  },
+  "author": "Lyubomir Todorov",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Lyubomir-Todorov/i-owe-you-discord-bot/issues"
+  },
+  "homepage": "https://github.com/Lyubomir-Todorov/i-owe-you-discord-bot#readme"
+}
