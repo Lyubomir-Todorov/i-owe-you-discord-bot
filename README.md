@@ -99,5 +99,5 @@ We only need the `client_email` and `private_key` fields from the JSON file to a
 -   Create a new Discord application and bot [here](https://discord.com/developers/applications)
 -   Under the bot menu, enable `SERVER MEMBERS INTENT` and `MESSAGE CONTENT INTENT`
     ![Discord privileged gateway intents](images/discord-intents.png)
--   Under the OAuth2 menu, select the client ID and secret, add these to your `.env` file
+-   Under the OAuth2 menu, select the client ID and add it to your `.env` file
     ![Discord OAuth2](images/discord-oauth.png)
