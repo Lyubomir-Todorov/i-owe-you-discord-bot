@@ -72,12 +72,22 @@ The bot is not hosted anywhere, so you will need to run everything yourself.
 
 A service account is required to access the Google Sheets API. Follow the instructions [here](https://theoephraim.github.io/node-google-spreadsheet/#/guides/authentication?id=setting-up-your-quotapplicationquot) to create a service account and download the JSON file.
 
+We only need the `client_email` and `private_key` fields from the JSON file to authenticate with the Google Sheets API.
+**Make sure not to commit this file to source control.**
+
 ## Running the bot
 
 -   Clone the repository
 -   Create a `.env` file in the root directory with the content found in [.env.example](.env.example)
--   Add the service account JSON file to the root directory and update the `.env` file with the file name. **Please do not commit this file to your repository**
--   For local development, run `npm run dev`
+
+    ### Local development
+
+-   Run `npm install`
+-   Run `npm run dev`
+
+    ### Production
+
+-   Run `npm build`, followed by `npm start`
 
 ## Setting up the spreadsheet
 
