@@ -1,62 +1,44 @@
 # I Owe You Discord Bot
 
-A Discord bot to keep track of who owes who money.
+**A Discord bot to keep track of who owes who money.**
 
-Data is neatly stored in a Google Sheets file by month. The bot will keep track of the balance between the two people and allow for easy submission of new entries.
+This bot keeps track of your financial exchanges with a roommate or friend, storing data securely in a Google Sheets file. It allows for easy submission of new entries and quick balance checks, all within your Discord server.
 
 ![Interaction with the bot](images/demo.png)
+![Overview of the spreadsheet](images/spreadsheet-demo.png)
 
-## Limitations
+## Why Use This Bot?
 
-This bot is designed for exclusive use by **two individuals only**.
+This bot was designed to simplify expense tracking for two individuals. It eliminates the need to manually update a shared spreadsheet and allows for quick entry submissions using voice dictation on your phone.
 
-## Why
+## Designed for Ease of Use
 
-I had an existing spreadsheet where my roommate and I kept track of who owed who money. I wanted to make it easier to update and view this information.
+I found it annoying to directly update a shared spreadsheet after making purchases, especially when I was out. Often, I'd forget to update it later when I got home to my computer.
 
-I found it really annoying to directly update the spreadsheet after making a purchase in places such as the grocery store, and if I waited to do it at home on my PC, I'd likely forget about it.
+This bot simplifies that process. Short commands and message parsing allow for quick entry submissions, making it easier to keep track of shared expenses, even when you're on the go. You can submit entries using voice dictation on your phone or by simply typing in the details.
 
-We already had a private Discord server where we would communicate, so I thought it would be a good idea to have a bot that could handle this for us.
+## Submitting Entries
 
-## Focus
+Messages are parsed using regular expressions and consist of four parts:
 
-The overall focus is to make submitting purchases as easy as possible. I typically use this with voice dictation on my phone, so I want to keep the commands as short as possible.
-
-This is also the main reason I did not make use of commands for submissions. I wanted the bot to interact with plain messages.
-
-## Messages
-
-Messages are made up of four parts:
-
--   `Name - optional`: The name of the person who made the purchase
--   `Amount - required`: The amount of the purchase
--   `Description - required`: A brief description of the purchase
--   `Category - optional`: The category of the purchase
+-   `Name (optional)` - The name of the person who made the purchase, this can be the name / nickname of the other person to submit a purchase on their behalf. If no name is specified or found, it will default to the author of the message
+-   `Amount (required)` - The first occurrence of a decimal or whole number is assumed to be the amount
+-   `Description (required)` - Text that excludes the name, amount, and category will be used as the description
+-   `Category (optional)` - Text that matches one of the configured categories / category keywords will be used as the category. If no category is found, it will fallback to the default category
 
 ### Full length messages
-
-Messages are parsed using regular expressions. Take the following message as an example:
 
 ```
 John spent $12.48 for Netflix in subscriptions
 ```
 
--   `John` - The name of the person who made the purchase, this can be the name / nickname of the other person to submit a purchase on their behalf. If no name is specified or found, it will default to the author of the message
--   `12.48` - The first occurrence of a decimal or whole number is assumed to be the amount
--   `Netflix` - Text that excludes the name, amount, and category will be used as the description
--   `subscriptions` - Text that matches one of the configured categories / category keywords will be used as the category. If no category is found, it will fallback to the default category
-
 ### Short messages
 
-Shorthand messages are supported. The bot will look for the following patterns, the example above can be shortened to:
+The example above can be shortened to:
 
 ```
 12.48 Netflix
 ```
-
--   The user defaults to the author of the message
--   Amount remains
--   Description remains, `Netflix` happens to be a category keyword, so `subscriptions` will be automatically assigned as the category.
 
 ## Commands
 
@@ -66,14 +48,26 @@ Shorthand messages are supported. The bot will look for the following patterns, 
 
 # Installation
 
-The bot is not hosted anywhere, so you will need to run everything yourself.
+This bot requires self-hosting.
 
 ### Creating a service account
 
 A service account is required to access the Google Sheets API. Follow the instructions [here](https://theoephraim.github.io/node-google-spreadsheet/#/guides/authentication?id=setting-up-your-quotapplicationquot) to create a service account and download the JSON file.
 
-We only need the `client_email` and `private_key` fields from the JSON file to authenticate with the Google Sheets API.
 **Make sure not to commit this file to source control.**
+
+Only the `client_email` and `private_key` fields are required from the JSON file. Add these to your `.env` file.
+
+## Setting up the spreadsheet
+
+-   Create a copy of the spreadsheet from [here](https://docs.google.com/spreadsheets/d/1q5OcvyquNueBPlrWIpHoLVws0KlqHMnxC8Mc56Tnki8/copy#gid=1759934342)
+-   Share the spreadsheet with the `client_email` value, make sure to give it **Edit** permissions
+-   Populate the cells found in the `Configuration` worksheet.
+-   Copy the `Spreadsheet ID` from the URL of the spreadsheet and add it to your `.env` file
+
+```
+https://docs.google.com/spreadsheets/d/<SPREADSHEET ID>/edit#gid=0
+```
 
 ## Running the bot
 
@@ -88,16 +82,15 @@ We only need the `client_email` and `private_key` fields from the JSON file to a
     ### Production
 
 -   Run `npm build`, followed by `npm start`
-
-## Setting up the spreadsheet
-
--   Create a copy of the spreadsheet from [here](https://docs.google.com/spreadsheets/d/1q5OcvyquNueBPlrWIpHoLVws0KlqHMnxC8Mc56Tnki8/copy#gid=1759934342)
--   Share the spreadsheet with the email found in the service account JSON file, make sure to give it edit permissions
+-   Hosting on a service such as Railway or Render is recommended. Make sure to set the environment variables in the hosting service.
 
 ## Setting up in your server
 
 -   Create a new Discord application and bot [here](https://discord.com/developers/applications)
--   Under the bot menu, enable `SERVER MEMBERS INTENT` and `MESSAGE CONTENT INTENT`
+-   Copy the bot token and add it to your `.env` file
+-   Under `Bot`, enable `SERVER MEMBERS INTENT` and `MESSAGE CONTENT INTENT`
     ![Discord privileged gateway intents](images/discord-intents.png)
--   Under the OAuth2 menu, select the client ID and add it to your `.env` file
+-   Under `OAuth2`, select the client ID and add it to your `.env` file
     ![Discord OAuth2](images/discord-oauth.png)
+-   Finally, head to `Installatation`. Set `Install link` to `Discord provided link` and use it to invite the bot to your server
+-   Create a text channel strictly for the bot to post messages in. This is where the bot will post balance updates and other messages. Restrict permissions to only allow the bot to send messages in this channel.
