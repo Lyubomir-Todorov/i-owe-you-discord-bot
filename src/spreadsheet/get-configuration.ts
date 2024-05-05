@@ -10,7 +10,7 @@ export async function getConfiguration() {
         throw new Error("Configuration worksheet not found");
     }
 
-    await worksheetConfig.loadCells("A1:Z");
+    await worksheetConfig.loadCells();
 
     const firstPerson = await assignPerson(
         worksheetConfig,
@@ -40,6 +40,8 @@ export async function getConfiguration() {
         worksheetConfig,
         config.CONFIG_WORKSHEET_BLACKLIST_RANGE
     );
+
+    worksheetConfig.resetLocalCache(true);
 
     if (
         !firstPerson ||

@@ -44,6 +44,8 @@ export async function insertNewPurchase(
     const amountCell = worksheet.getCellByA1(`${purchaserColumn}${startIndex}`);
     amountCell.value = amount;
 
+    worksheet.resetLocalCache(true);
+
     await worksheet.saveCells([
         dateCell,
         descriptionCell,

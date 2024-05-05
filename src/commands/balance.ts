@@ -14,6 +14,8 @@ export async function execute(interaction: CommandInteraction) {
             config.WORKSHEET_TOTAL_OWING_CELL
         ).value;
 
+        worksheet.resetLocalCache(true);
+
         if (!value) {
             throw new Error("Balance not found");
         }
