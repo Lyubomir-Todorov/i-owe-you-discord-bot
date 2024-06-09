@@ -1,9 +1,9 @@
 import { Client, GatewayIntentBits } from "discord.js";
+import { commands } from "./commands";
 import { config } from "./config";
 import { deployCommands } from "./deploy-commands";
-import { commands } from "./commands";
-import { getConfiguration, initializeSpreadsheet } from "./spreadsheet";
 import { parseMessageIntoPurchase } from "./parse-message-into-purchase";
+import { initializeSpreadsheet } from "./spreadsheet";
 
 const client = new Client({
     intents: [
