@@ -7,7 +7,7 @@ export async function parseMessageIntoPurchase(message: Message) {
         const configFromWorksheet = await getConfiguration();
 
         const blacklistedKeywordsRegExp = new RegExp(
-            configFromWorksheet.blacklistedKeywords.join("|"),
+            `\\b(${configFromWorksheet.blacklistedKeywords.join("|")})\\b`,
             "ig"
         );
 
@@ -102,7 +102,7 @@ export async function parseMessageIntoPurchase(message: Message) {
             capitalizedDescription,
             category?.name || configFromWorksheet.defaultPurchaseCategory,
             "50/50",
-            configFromWorksheet.people.indexOf((purchaser)) === 0
+            configFromWorksheet.people.indexOf(purchaser) === 0
                 ? "person1"
                 : "person2",
             Number(purchaseAmountMatch[0])
