@@ -9,32 +9,38 @@ This bot keeps track of your financial exchanges with a roommate or friend, stor
 
 ## Why Use This Bot?
 
-This bot was designed to simplify expense tracking for two individuals. It eliminates the need to manually update a shared spreadsheet and allows for quick entry submissions using voice dictation on your phone.
+This bot was created to simplify expense tracking for two individuals, removing the need to manually update a shared spreadsheet.
 
-## Designed for Ease of Use
+The bot doesn't require commands to add entries. Instead, it uses regular Discord messages with a flexible syntax that is very forgiving and can make a lot of assumptions on your behalf. This is especially useful when you're outside and want to add an entry immediately after making a purchase, so you don't forget to do it later.
 
-I found it annoying to directly update a shared spreadsheet after making purchases, especially when I was out. Often, I'd forget to update it later when I got home to my computer.
-
-This bot simplifies that process. Short commands and message parsing allow for quick entry submissions, making it easier to keep track of shared expenses, even when you're on the go. You can submit entries using voice dictation on your phone or by simply typing in the details.
+The short message syntax also works well for quickly adding entries using your phone's voice dictation.
 
 ## Submitting Entries
 
 Messages are parsed using regular expressions and consist of four parts:
 
--   `Name (optional)` - The name of the person who made the purchase, this can be the name / nickname of the other person to submit a purchase on their behalf. If no name is specified or found, it will default to the author of the message
--   `Amount (required)` - The first occurrence of a decimal or whole number is assumed to be the amount
--   `Description (required)` - Text that excludes the name, amount, and category will be used as the description
--   `Category (optional)` - Text that matches one of the configured categories / category keywords will be used as the category. If no category is found, it will fallback to the default category
+### Required arguments
 
-### Full length messages
+-   `Amount` - The first occurrence of a decimal or whole number is assumed to be the amount
+-   `Description` - Text that excludes the name, amount, and category will be used as the description
+
+### Optional arguments
+
+-   `Name` - The name of the person who made the purchase
+    -   The name / nickname of the other person can be used to indicate that the amount is owed to them
+    -   If no name is found, the name of the user who submitted the message will be used
+-   `Category` - Text that matches one of the configured categories / category keywords will be used as the category
+    -   If no category is found, the default category will be used
+
+### Full length message example
 
 ```
 John spent $12.48 for Netflix in subscriptions
 ```
 
-### Short messages
+### Shortened message example
 
-The example above can be shortened to:
+Assuming Netflix is a keyword for the subscriptions category, the example above can be shortened to:
 
 ```
 12.48 Netflix
@@ -46,9 +52,17 @@ The example above can be shortened to:
 
 `/pay` - Add an entry to pay off any outstanding balances
 
-# Installation
+## Installation requirements
 
 This bot requires self-hosting.
+
+_Hosting on a service such as Railway or Render is recommended. Make sure to set the environment variables in the hosting service._
+
+## Getting started
+
+-   Clone the repository
+-   Create a `.env` file in the root directory with the content found in [.env.example](.env.example)
+    -   Only variables starting with `GOOGLE` and `DISCORD` are required, the rest are optional
 
 ### Creating a service account
 
@@ -56,14 +70,16 @@ A service account is required to access the Google Sheets API. Follow the instru
 
 **Make sure not to commit this file to source control.**
 
-Only the `client_email` and `private_key` fields are required from the JSON file. Add these to your `.env` file.
+From the JSON file, Add `client_email` as the value for `GOOGLE_SERVICE_ACCOUNT_CLIENT_EMAIL`, and `private_key` for `GOOGLE_SERVICE_ACCOUNT_PRIVATE_KEY` to your `.env` file.
 
 ## Setting up the spreadsheet
 
 -   Create a copy of the spreadsheet from [here](https://docs.google.com/spreadsheets/d/1q5OcvyquNueBPlrWIpHoLVws0KlqHMnxC8Mc56Tnki8/copy#gid=1759934342)
 -   Share the spreadsheet with the `client_email` value, make sure to give it **Edit** permissions
 -   Populate the cells found in the `Configuration` worksheet.
--   Copy the `Spreadsheet ID` from the URL of the spreadsheet and add it to your `.env` file
+-   Copy the `Spreadsheet ID` from the URL of the spreadsheet and add it to `GOOGLE_SHEETS_SPREADSHEET_ID` in your `.env` file
+
+_The spreadsheet ID can be found in the URL of the spreadsheet:_
 
 ```
 https://docs.google.com/spreadsheets/d/<SPREADSHEET ID>/edit#gid=0
@@ -71,27 +87,30 @@ https://docs.google.com/spreadsheets/d/<SPREADSHEET ID>/edit#gid=0
 
 ## Running the bot
 
--   Clone the repository
--   Create a `.env` file in the root directory with the content found in [.env.example](.env.example)
-
-    ### Local development
+### Local development
 
 -   Run `npm install`
 -   Run `npm run dev`
 
-    ### Production
+### Production
 
 -   Run `npm build`, followed by `npm start`
--   Hosting on a service such as Railway or Render is recommended. Make sure to set the environment variables in the hosting service.
+
+### Testing
+
+-   Run `npm test` to run the test suite
 
 ## Setting up in your server
 
 -   Create a new Discord application and bot [here](https://discord.com/developers/applications)
--   Copy the bot token and add it to your `.env` file
+-   Copy the bot token and add it to `DISCORD_TOKEN` in your `.env` file
 -   Under `Bot`, enable `SERVER MEMBERS INTENT` and `MESSAGE CONTENT INTENT`
+
     ![Discord privileged gateway intents](https://github.com/Lyubomir-Todorov/i-owe-you-discord-bot/assets/73316704/5d89b006-098a-4643-9205-ab3d9c74cd34)
 
--   Under `OAuth2`, select the client ID and add it to your `.env` file
+-   Under `OAuth2`, select the client ID and add it to `DISCORD_CLIENT_ID` in your `.env` file
+
     ![Discord OAuth2](https://github.com/Lyubomir-Todorov/i-owe-you-discord-bot/assets/73316704/a4518787-3848-454c-8ae1-0f70ab5c58b3)
+
 -   Finally, head to `Installation`. Set `Install link` to `Discord provided link` and use it to invite the bot to your server
 -   Create a text channel strictly for the bot to post messages in. This is where the bot will post balance updates and other messages. Restrict permissions to only allow the bot to send messages in this channel.
