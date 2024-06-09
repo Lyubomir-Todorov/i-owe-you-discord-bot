@@ -20,6 +20,7 @@ export default function cleanMessage(
     return message
         .replace(blacklistedKeywordsRegExp, "")
         .replace(specialCharactersRegExp, "")
+        .replace(/\s+/g, " ")
         .toLowerCase()
         .trim();
 }

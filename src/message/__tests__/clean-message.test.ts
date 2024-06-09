@@ -2,12 +2,14 @@ import cleanMessage from "../clean-message";
 
 describe("cleanMessage", () => {
     it("should remove blacklisted keywords and special characters, and convert the message to lowercase", () => {
-        const message = "Hello, this is a test message!";
-        const blacklistedKeywords = ["test", "message"];
+        const message = "John spent $10.99 for product in miscellaneous";
+        const blacklistedKeywords = ["for", "in"];
 
         const cleanedMessage = cleanMessage(message, blacklistedKeywords);
 
-        expect(cleanedMessage).toEqual("hello this is a");
+        expect(cleanedMessage).toEqual(
+            "john spent 10.99 product miscellaneous"
+        );
     });
 
     it("should not remove blacklisted words that appear in whole words", () => {
@@ -29,11 +31,13 @@ describe("cleanMessage", () => {
     });
 
     it("should handle empty blacklisted keywords", () => {
-        const message = "Hello, this is a test message!";
+        const message = "John spent $10.99 for product in miscellaneous";
         const blacklistedKeywords: string[] = [];
 
         const cleanedMessage = cleanMessage(message, blacklistedKeywords);
 
-        expect(cleanedMessage).toEqual("hello this is a test message");
+        expect(cleanedMessage).toEqual(
+            "john spent 10.99 for product in miscellaneous"
+        );
     });
 });
