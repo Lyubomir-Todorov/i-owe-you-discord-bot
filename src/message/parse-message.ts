@@ -5,7 +5,7 @@ import getPurchaseCategory from "./get-purchase-category";
 import getPurchaser from "./get-purchaser";
 import getDescription from "./get-description";
 
-type Options = {
+export type Options = {
     message: string;
     blacklistedKeywords: string[];
     categories: PurchaseCategory[];
@@ -47,6 +47,7 @@ export function parseMessage(options: Options): MessageOutput {
 
     // Purchaser
     const purchaser = getPurchaser(messageWithoutCategory, initiator, other);
+    console.log(purchaser);
     const messageWithoutPurchaser = messageWithoutCategory.replace(
         purchaser.match,
         ""
@@ -54,6 +55,7 @@ export function parseMessage(options: Options): MessageOutput {
 
     // Description
     const description = getDescription(messageWithoutPurchaser);
+    if (!description) throw new Error("Description missing");
 
     return {
         amount: purchaseAmount,

@@ -23,7 +23,7 @@ export default function getPurchaser(
     );
 
     const otherPersonMatch = otherPersonRegexp.exec(message);
-    if (otherPersonMatch) {
+    if (otherPersonMatch?.[0]) {
         return {
             name: other.name,
             match: otherPersonMatch[0],
@@ -38,7 +38,7 @@ export default function getPurchaser(
     );
 
     const initiatorPersonMatch = initiatorPersonRegexp.exec(message);
-    if (initiatorPersonMatch) {
+    if (initiatorPersonMatch?.[0]) {
         return {
             name: initiator.name,
             match: initiatorPersonMatch[0],
