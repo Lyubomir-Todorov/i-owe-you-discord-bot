@@ -18,7 +18,7 @@ export default function getPurchaser(
     other: Person
 ): Return {
     const otherPersonRegexp = new RegExp(
-        other.name + "|" + other.aliases.join("|"),
+        `\\b(${other.name})\\b` + "|" + `\\b(${other.aliases.join("|")})\\b`,
         "i"
     );
 
@@ -31,7 +31,9 @@ export default function getPurchaser(
     }
 
     const initiatorPersonRegexp = new RegExp(
-        initiator.name + "|" + initiator.aliases.join("|"),
+        `\\b(${initiator.name})\\b` +
+            "|" +
+            `\\b(${initiator.aliases.join("|")})\\b`,
         "i"
     );
 
