@@ -3,13 +3,22 @@ import { getCurrentMonthWorksheet } from "./spreadsheet/get-current-month-worksh
 import getFurthestWorksheetColumn from "./spreadsheet/get-furthest-worksheet-column";
 import { getInsertionRowIndex } from "./spreadsheet/get-insertion-row-index";
 
-export async function insertNewPurchase(
-    description: string,
-    category: string,
-    split: string = "50/50",
-    purchaser: "person1" | "person2",
-    amount: number
-) {
+type Options = {
+    description: string;
+    category: string;
+    split?: string;
+    purchaser: "person1" | "person2";
+    amount: string;
+};
+
+export async function insertNewPurchase(options: Options) {
+    const {
+        description,
+        category,
+        split = "50/50",
+        purchaser,
+        amount,
+    } = options;
     const worksheet = await getCurrentMonthWorksheet();
     if (!worksheet) {
         throw new Error("Current month worksheet not found");
@@ -52,7 +61,7 @@ export async function insertNewPurchase(
             ? config.WORKSHEET_PERSON_1_AMOUNT_COLUMN
             : config.WORKSHEET_PERSON_2_AMOUNT_COLUMN;
     const amountCell = worksheet.getCellByA1(`${purchaserColumn}${startIndex}`);
-    amountCell.value = amount;
+    amountCell.value = Number(amount);
 
     await worksheet.saveUpdatedCells();
     worksheet.resetLocalCache(true);
