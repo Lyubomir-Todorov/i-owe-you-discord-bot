@@ -47,7 +47,6 @@ export function parseMessage(options: Options): MessageOutput {
 
     // Purchaser
     const purchaser = getPurchaser(messageWithoutCategory, initiator, other);
-    console.log(purchaser);
     const messageWithoutPurchaser = messageWithoutCategory.replace(
         purchaser.match,
         ""
