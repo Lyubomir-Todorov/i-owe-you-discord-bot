@@ -11,9 +11,11 @@ export async function parseMessageIntoPurchase(message: Message) {
             "ig"
         );
 
+        const specialCharactersRegExp = new RegExp(/[^\w\s.]/g);
+
         const cleanedMessage = message.content
             .replace(blacklistedKeywordsRegExp, "")
-            .replace(/[^a-zA-Z0-9\s.]/g, "")
+            .replace(specialCharactersRegExp, "")
             .toLowerCase()
             .trim();
 
