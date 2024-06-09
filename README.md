@@ -4,8 +4,8 @@
 
 This bot keeps track of your financial exchanges with a roommate or friend, storing data securely in a Google Sheets file. It allows for easy submission of new entries and quick balance checks, all within your Discord server.
 
-![Interaction with the bot](images/demo.png)
-![Overview of the spreadsheet](images/spreadsheet-demo.png)
+![Interaction with the bot](https://github.com/Lyubomir-Todorov/i-owe-you-discord-bot/assets/73316704/7c3532c4-85d2-4ba7-a0e1-83ed953f84fd)
+![Overview of the spreadsheet](https://github.com/Lyubomir-Todorov/i-owe-you-discord-bot/assets/73316704/47ebb451-b39c-49a7-9abd-6c72f36dd550)
 
 ## Why Use This Bot?
 
@@ -89,8 +89,9 @@ https://docs.google.com/spreadsheets/d/<SPREADSHEET ID>/edit#gid=0
 -   Create a new Discord application and bot [here](https://discord.com/developers/applications)
 -   Copy the bot token and add it to your `.env` file
 -   Under `Bot`, enable `SERVER MEMBERS INTENT` and `MESSAGE CONTENT INTENT`
-    ![Discord privileged gateway intents](images/discord-intents.png)
+    ![Discord privileged gateway intents](https://github.com/Lyubomir-Todorov/i-owe-you-discord-bot/assets/73316704/5d89b006-098a-4643-9205-ab3d9c74cd34)
+
 -   Under `OAuth2`, select the client ID and add it to your `.env` file
-    ![Discord OAuth2](images/discord-oauth.png)
--   Finally, head to `Installatation`. Set `Install link` to `Discord provided link` and use it to invite the bot to your server
+    ![Discord OAuth2](https://github.com/Lyubomir-Todorov/i-owe-you-discord-bot/assets/73316704/a4518787-3848-454c-8ae1-0f70ab5c58b3)
+-   Finally, head to `Installation`. Set `Install link` to `Discord provided link` and use it to invite the bot to your server
 -   Create a text channel strictly for the bot to post messages in. This is where the bot will post balance updates and other messages. Restrict permissions to only allow the bot to send messages in this channel.
