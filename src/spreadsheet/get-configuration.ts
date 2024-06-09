@@ -114,5 +114,5 @@ async function assignBlacklistedKeywords(
 ) {
     const keywords = await worksheet.getCellsInRange(keywordRange);
 
-    return keywords.flatMap((keyword: string) => keyword);
+    return keywords ? keywords.flatMap((keyword: string) => keyword) : [];
 }
