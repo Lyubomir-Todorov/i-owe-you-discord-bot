@@ -57,15 +57,15 @@ export async function execute(interaction: CommandInteraction) {
             return interaction.reply("No amount owed");
         }
 
-        await insertNewPurchase(
-            "#PAYMENT#",
-            "Payment",
-            other.name,
-            configuration.people.indexOf(initiator) === 0
-                ? "person1"
-                : "person2",
-            Number(amountOwedMatch[0])
-        );
+        await insertNewPurchase({
+            description: "#PAYMENT#",
+            category: "Payment",
+            purchaser:
+                configuration.people.indexOf(initiator) === 0
+                    ? "person1"
+                    : "person2",
+            amount: amountOwedMatch[0],
+        });
 
         return interaction.reply(
             `${initiator.name} has paid off their balance of \$${amountOwedMatch[0]}`
