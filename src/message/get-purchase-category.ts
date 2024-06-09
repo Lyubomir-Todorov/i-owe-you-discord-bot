@@ -29,8 +29,9 @@ export default function getPurchaseCategory(
     return categories.find(
         (category) =>
             category.name.toLowerCase() === categoryMatch[0].toLowerCase() ||
-            category.keywords
-                .map((keyword: string) => keyword.toLowerCase())
-                .includes(categoryMatch[0])
+            category.keywords.some(
+                (keyword) =>
+                    keyword.toLowerCase() === categoryMatch[0].toLowerCase()
+            )
     )!.name;
 }
