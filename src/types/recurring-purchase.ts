@@ -18,11 +18,11 @@ export type RecurringPurchase = {
 };
 
 export enum RecurringPurchaseFrequency {
-    Daily = 1,
-    Weekly = 7,
-    BiWeekly = 14,
-    Monthly = 30,
-    Quarterly = 90,
-    SemiAnnually = 180,
-    Yearly = 365,
+    "Daily" = 1,
+    "Weekly" = 7,
+    "Bi-weekly" = 14,
+    "Monthly" = 30,
+    "Quarterly" = 90,
+    "Semi-annually" = 180,
+    "Yearly" = 365,
 }
