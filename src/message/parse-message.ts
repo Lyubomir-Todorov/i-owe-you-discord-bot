@@ -60,6 +60,9 @@ export function parseMessage(options: Options): MessageOutput {
         amount: purchaseAmount,
         category,
         description,
-        purchaser: initiator.name === purchaser.name ? "person1" : "person2",
+        purchaser:
+            initiator.name === purchaser.name
+                ? initiator.position
+                : other.position,
     };
 }

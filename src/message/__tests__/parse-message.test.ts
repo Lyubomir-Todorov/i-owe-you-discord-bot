@@ -15,11 +15,13 @@ describe("parseMessage", () => {
             discordId: "",
             name: "John",
             aliases: [],
+            position: "person1",
         },
         other: {
             discordId: "",
             name: "Jane",
             aliases: [],
+            position: "person2",
         },
     } as Options;
 

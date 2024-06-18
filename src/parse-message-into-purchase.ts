@@ -35,7 +35,8 @@ export async function parseMessageIntoPurchase(message: Message) {
             category,
         });
 
-        const name = purchaser === "person1" ? initiator.name : other.name;
+        const name =
+            purchaser === initiator.position ? initiator.name : other.name;
 
         const response = `${name} spent \$${amount} at ${description} in ${category}`;
         return response;

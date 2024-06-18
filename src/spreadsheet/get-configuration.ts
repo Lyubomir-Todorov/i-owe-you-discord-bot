@@ -1,4 +1,9 @@
-import { Person, PurchaseCategory, WorksheetConfiguration } from "src/types";
+import {
+    Person,
+    PurchaseCategory,
+    Purchaser,
+    WorksheetConfiguration,
+} from "src/types";
 import { GoogleSpreadsheetWorksheet } from "google-spreadsheet";
 import { config } from "../config";
 import getConfigurationWorksheet from "./get-configuration-worksheet";
@@ -16,14 +21,16 @@ export async function getConfiguration() {
         worksheetConfig,
         config.CONFIG_WORKSHEET_PERSON_1_NAME_CELL,
         config.CONFIG_WORKSHEET_PERSON_1_DISCORD_ID_CELL,
-        config.CONFIG_WORKSHEET_PERSON_1_ALIASES_RANGE
+        config.CONFIG_WORKSHEET_PERSON_1_ALIASES_RANGE,
+        "person1"
     );
 
     const secondPerson = await assignPerson(
         worksheetConfig,
         config.CONFIG_WORKSHEET_PERSON_2_NAME_CELL,
         config.CONFIG_WORKSHEET_PERSON_2_DISCORD_ID_CELL,
-        config.CONFIG_WORKSHEET_PERSON_2_ALIASES_RANGE
+        config.CONFIG_WORKSHEET_PERSON_2_ALIASES_RANGE,
+        "person2"
     );
 
     const defaultPurchaseCategory = assignDefaultPurchaseCategory(
@@ -64,7 +71,8 @@ async function assignPerson(
     worksheet: GoogleSpreadsheetWorksheet,
     nameCell: string,
     discordIdCell: string,
-    aliasesRange: string
+    aliasesRange: string,
+    position: Purchaser
 ) {
     const name = worksheet.getCellByA1(nameCell);
     const discordId = worksheet.getCellByA1(discordIdCell);
@@ -74,6 +82,7 @@ async function assignPerson(
         name: name.value,
         discordId: discordId.value,
         aliases: aliases.flatMap((alias: string) => alias),
+        position: position,
     } as Person;
 }
 

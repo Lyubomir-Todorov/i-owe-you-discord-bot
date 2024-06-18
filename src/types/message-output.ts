@@ -1,3 +1,5 @@
+import { Purchaser } from "./purchaser";
+
 /**
  * MessageOutput type. The resulting output after parsing the message.
  */
@@ -19,5 +21,5 @@ export type MessageOutput = {
      * The purchaser of the purchase.
      * This maps to the name of the person who made the purchase.
      */
-    purchaser: "person1" | "person2";
+    purchaser: Purchaser;
 };

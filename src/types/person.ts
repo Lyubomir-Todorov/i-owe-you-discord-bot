@@ -1,3 +1,5 @@
+import { Purchaser } from "./purchaser";
+
 /**
  * Person, represents one of the users in the spreadsheet.
  */
@@ -16,4 +18,10 @@ export type Person = {
      * This is used to correctly identify the purchaser if an alias is mentioned in the message.
      */
     aliases: string[];
+
+    /**
+     * The position of the person.
+     * This is used to determine the order of the people in the spreadsheet.
+     */
+    position: Purchaser;
 };

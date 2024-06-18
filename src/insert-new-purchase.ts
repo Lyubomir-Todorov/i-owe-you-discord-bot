@@ -2,12 +2,13 @@ import { config } from "./config";
 import { getCurrentMonthWorksheet } from "./spreadsheet/get-current-month-worksheet";
 import getFurthestWorksheetColumn from "./spreadsheet/get-furthest-worksheet-column";
 import { getInsertionRowIndex } from "./spreadsheet/get-insertion-row-index";
+import { Purchaser } from "./types";
 
 type Options = {
     description: string;
     category: string;
     split?: string;
-    purchaser: "person1" | "person2";
+    purchaser: Purchaser;
     amount: string;
 };
 
