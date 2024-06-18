@@ -1,6 +1,8 @@
 import { Purchaser } from "./purchaser";
 
 export type RecurringPurchase = {
+    /** Whether the purchase is currently active */
+    enabled: boolean;
     /** Description of the purchase */
     description: string;
     /** Total cost */
