@@ -1,7 +1,7 @@
 import { config } from "./config";
-import { getCurrentMonthWorksheet } from "./spreadsheet/get-current-month-worksheet";
 import getFurthestWorksheetColumn from "./spreadsheet/get-furthest-worksheet-column";
-import { getInsertionRowIndex } from "./spreadsheet/get-insertion-row-index";
+import { getCurrentMonthWorksheet } from "./spreadsheet/monthly/get-current-month-worksheet";
+import { getInsertionRowIndex } from "./spreadsheet/monthly/get-insertion-row-index";
 import { Purchaser } from "./types";
 
 type Options = {

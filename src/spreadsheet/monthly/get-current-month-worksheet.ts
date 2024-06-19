@@ -1,4 +1,4 @@
-import { spreadsheet } from "./spreadsheet";
+import { spreadsheet } from "../spreadsheet";
 
 export async function getCurrentMonthWorksheet() {
     const date = new Date();
