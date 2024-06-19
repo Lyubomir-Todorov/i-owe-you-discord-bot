@@ -1,6 +1,6 @@
 import { CommandInteraction, SlashCommandBuilder } from "discord.js";
-import { getCurrentMonthWorksheet } from "../spreadsheet/get-current-month-worksheet";
 import { config } from "../config";
+import { getCurrentMonthWorksheet } from "src/spreadsheet";
 
 export const data = new SlashCommandBuilder()
     .setName("balance")

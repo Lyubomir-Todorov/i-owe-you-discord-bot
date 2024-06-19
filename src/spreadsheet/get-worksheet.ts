@@ -1,4 +1,3 @@
-import { GoogleSpreadsheet } from "google-spreadsheet";
 import { spreadsheet } from "./spreadsheet";
 
 export default async function getWorksheet(name: string) {
