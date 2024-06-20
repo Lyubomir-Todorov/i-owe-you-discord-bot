@@ -1,23 +1,60 @@
+import { differenceInDays } from "date-fns";
 import { GoogleSpreadsheetWorksheet } from "google-spreadsheet";
-import getFurthestWorksheetColumn from "../get-furthest-worksheet-column";
 import { config } from "src/config";
+import { RecurringPurchase, RecurringPurchaseFrequency } from "src/types";
 
 export default async function getRecurringPayments(
     worksheet: GoogleSpreadsheetWorksheet
 ) {
-    const furthestColumn = getFurthestWorksheetColumn([
-        config.RECURRING_WORKSHEET_DISABLED_COLUMN,
-        config.RECURRING_WORKSHEET_DESCRIPTION_COLUMN,
-        config.RECURRING_WORKSHEET_AMOUNT_COLUMN,
-        config.RECURRING_WORKSHEET_CATEGORY_COLUMN,
-        config.RECURRING_WORKSHEET_PURCHASER_COLUMN,
-        config.RECURRING_WORKSHEET_FREQUENCY_COLUMN,
-        config.RECURRING_WORKSHEET_LAST_PURCHASED_COLUMN,
-    ]);
+    const purchaseAmountRegExp = new RegExp(/\d+(\.\d+)?/);
 
-    const data = await worksheet.getCellsInRange(
-        `A${config.RECURRING_WORKSHEET_ROW_OFFSET}:Z1000`
+    await worksheet.loadHeaderRow(
+        Number(config.RECURRING_WORKSHEET_ROW_OFFSET) - 1
     );
-    console.log(data);
-    return data;
+    var rows = await worksheet.getRows({ limit: 3 });
+    for (const row of rows) {
+        const {
+            enabled,
+            description,
+            amount,
+            purchaser,
+            category,
+            frequency,
+            lastRunDate,
+        }: RecurringPurchase = {
+            enabled: row.get("Disabled") === "FALSE",
+            description: String(row.get("Description")).trim(),
+            amount: Number(purchaseAmountRegExp.exec(row.get("Amount"))?.[0]),
+            purchaser: String(row.get("Purchaser")).trim(),
+            category: row.get("Category"),
+            frequency: row.get("Frequency") as RecurringPurchaseFrequency,
+            lastRunDate: row.get("Last time added")
+                ? new Date(row.get("Last time added"))
+                : null,
+        };
+
+        if (
+            !enabled ||
+            !description ||
+            !amount ||
+            !purchaser ||
+            !category ||
+            !frequency
+        ) {
+            continue;
+        }
+
+        if (!lastRunDate) {
+            console.log(`Purchase ${description} has never been made`);
+            row.assign({ "Last time added": new Date() });
+            row.save();
+            continue;
+        }
+
+        const difference = differenceInDays(new Date(), lastRunDate);
+        if (difference >= Number(RecurringPurchaseFrequency[frequency])) {
+            // Make purchase
+            console.log(`Purchase ${description} is due`);
+        }
+    }
 }
