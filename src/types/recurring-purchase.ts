@@ -10,11 +10,11 @@ export type RecurringPurchase = {
     /** Category that the purchase belongs to*/
     category: string;
     /** Who purchased the item */
-    purchaser: Purchaser;
+    purchaser: string;
     /** How often the purchase is made */
     frequency: RecurringPurchaseFrequency;
     /** Date of the last purchase */
-    lastRunDate: Date;
+    lastRunDate: Date | null;
 };
 
 export enum RecurringPurchaseFrequency {
