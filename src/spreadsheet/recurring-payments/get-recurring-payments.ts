@@ -11,7 +11,7 @@ export default async function getRecurringPayments(
     await worksheet.loadHeaderRow(
         Number(config.RECURRING_WORKSHEET_ROW_OFFSET) - 1
     );
-    var rows = await worksheet.getRows({ limit: 3 });
+    var rows = await worksheet.getRows();
     for (const row of rows) {
         const {
             enabled,
