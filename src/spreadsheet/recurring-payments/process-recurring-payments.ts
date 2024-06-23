@@ -24,14 +24,29 @@ export default async function processRecurringPayments(): Promise<
     var rows = await worksheet.getRows();
     for (const row of rows) {
         const recurringPurchase: RecurringPurchase = {
-            enabled: row.get("Disabled") === "FALSE",
-            description: String(row.get("Description")).trim(),
-            amount: Number(purchaseAmountRegExp.exec(row.get("Amount"))?.[0]),
-            purchaser: String(row.get("Purchaser")).trim(),
-            category: row.get("Category"),
-            frequency: row.get("Frequency") as RecurringPurchaseFrequency,
-            lastRunDate: row.get("Last time added")
-                ? new Date(row.get("Last time added"))
+            enabled:
+                row.get(config.RECURRING_WORKSHEET_DISABLED_COLUMN) === "FALSE",
+            description: String(
+                row.get(config.RECURRING_WORKSHEET_DESCRIPTION_COLUMN)
+            ).trim(),
+            amount: Number(
+                purchaseAmountRegExp.exec(
+                    row.get(config.RECURRING_WORKSHEET_AMOUNT_COLUMN)
+                )?.[0]
+            ),
+            purchaser: String(
+                row.get(config.RECURRING_WORKSHEET_PURCHASER_COLUMN)
+            ).trim(),
+            category: row.get(config.RECURRING_WORKSHEET_CATEGORY_COLUMN),
+            frequency: row.get(
+                config.RECURRING_WORKSHEET_FREQUENCY_COLUMN
+            ) as RecurringPurchaseFrequency,
+            lastRunDate: row.get(
+                config.RECURRING_WORKSHEET_LAST_PURCHASED_COLUMN
+            )
+                ? new Date(
+                      row.get(config.RECURRING_WORKSHEET_LAST_PURCHASED_COLUMN)
+                  )
                 : null,
         };
 
