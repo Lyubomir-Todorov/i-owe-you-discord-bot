@@ -56,9 +56,14 @@ if (
     throw new Error("Missing required environment variables");
 }
 
+const privateKeyModified = GOOGLE_SERVICE_ACCOUNT_PRIVATE_KEY.replace(
+    /\\n/g,
+    "\n"
+);
+
 export const config = {
     GOOGLE_SERVICE_ACCOUNT_CLIENT_EMAIL,
-    GOOGLE_SERVICE_ACCOUNT_PRIVATE_KEY,
+    GOOGLE_SERVICE_ACCOUNT_PRIVATE_KEY: privateKeyModified,
     DISCORD_TOKEN,
     DISCORD_CLIENT_ID,
     GOOGLE_SHEETS_SPREADSHEET_ID,
