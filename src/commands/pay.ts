@@ -1,7 +1,6 @@
 import { CommandInteraction, SlashCommandBuilder } from "discord.js";
 import { config } from "../config";
-import { getConfiguration } from "../spreadsheet";
-import { getCurrentMonthWorksheet } from "../spreadsheet/get-current-month-worksheet";
+import { getConfiguration, getCurrentMonthWorksheet } from "../spreadsheet";
 import { insertNewPurchase } from "src/insert-new-purchase";
 
 export const data = new SlashCommandBuilder()
