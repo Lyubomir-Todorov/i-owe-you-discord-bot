@@ -14,7 +14,7 @@ export default async function processRecurringPayments(): Promise<
     const worksheet = await getWorksheet(config.RECURRING_WORKSHEET_NAME);
     const configuration = await getConfiguration();
 
-    const purchaseAmountRegExp = new RegExp(/\d+(\.\d+)?/);
+    const nonMatchingDigitRegExp = new RegExp(/[^\d|\.]/g);
 
     await worksheet.loadHeaderRow(
         Number(config.RECURRING_WORKSHEET_ROW_OFFSET) - 1
@@ -23,31 +23,43 @@ export default async function processRecurringPayments(): Promise<
     const successfulRecurringPayments: RecurringPurchase[] = [];
     var rows = await worksheet.getRows();
     for (const row of rows) {
+        const rowEnabled =
+            row.get(config.RECURRING_WORKSHEET_DISABLED_COLUMN) === "FALSE";
+
+        const rowDescription = String(
+            row.get(config.RECURRING_WORKSHEET_DESCRIPTION_COLUMN)
+        ).trim();
+
+        const rowAmount = String(
+            row.get(config.RECURRING_WORKSHEET_AMOUNT_COLUMN)
+        ).replace(nonMatchingDigitRegExp, "");
+
+        const rowPurchaser = String(
+            row.get(config.RECURRING_WORKSHEET_PURCHASER_COLUMN)
+        ).trim();
+
+        const rowCategory = row.get(config.RECURRING_WORKSHEET_CATEGORY_COLUMN);
+
+        const rowFrequency = row.get(
+            config.RECURRING_WORKSHEET_FREQUENCY_COLUMN
+        ) as RecurringPurchaseFrequency;
+
+        const rowLastRunDate = row.get(
+            config.RECURRING_WORKSHEET_LAST_PURCHASED_COLUMN
+        )
+            ? new Date(
+                  row.get(config.RECURRING_WORKSHEET_LAST_PURCHASED_COLUMN)
+              )
+            : null;
+
         const recurringPurchase: RecurringPurchase = {
-            enabled:
-                row.get(config.RECURRING_WORKSHEET_DISABLED_COLUMN) === "FALSE",
-            description: String(
-                row.get(config.RECURRING_WORKSHEET_DESCRIPTION_COLUMN)
-            ).trim(),
-            amount: Number(
-                purchaseAmountRegExp.exec(
-                    row.get(config.RECURRING_WORKSHEET_AMOUNT_COLUMN)
-                )?.[0]
-            ),
-            purchaser: String(
-                row.get(config.RECURRING_WORKSHEET_PURCHASER_COLUMN)
-            ).trim(),
-            category: row.get(config.RECURRING_WORKSHEET_CATEGORY_COLUMN),
-            frequency: row.get(
-                config.RECURRING_WORKSHEET_FREQUENCY_COLUMN
-            ) as RecurringPurchaseFrequency,
-            lastRunDate: row.get(
-                config.RECURRING_WORKSHEET_LAST_PURCHASED_COLUMN
-            )
-                ? new Date(
-                      row.get(config.RECURRING_WORKSHEET_LAST_PURCHASED_COLUMN)
-                  )
-                : null,
+            enabled: rowEnabled,
+            description: rowDescription,
+            amount: Number(rowAmount),
+            purchaser: rowPurchaser,
+            category: rowCategory,
+            frequency: rowFrequency,
+            lastRunDate: rowLastRunDate,
         };
 
         const {
