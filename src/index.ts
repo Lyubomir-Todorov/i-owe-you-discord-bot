@@ -1,10 +1,5 @@
 import { CronJob } from "cron";
-import {
-    Client,
-    GatewayIntentBits,
-    HeadingLevel,
-    heading
-} from "discord.js";
+import { Client, GatewayIntentBits, HeadingLevel, heading } from "discord.js";
 import { commands } from "./commands";
 import { config } from "./config";
 import { deployCommands } from "./deploy-commands";
@@ -58,6 +53,11 @@ client.on("ready", async () => {
 
     try {
         await initializeSpreadsheet();
+
+        const guild = client.guilds.cache.first();
+        if (guild) {
+            await deployCommands({ guildId: guild.id });
+        }
         job.start();
     } catch (error) {
         console.error("Error initializing spreadsheet", error);
