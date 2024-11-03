@@ -1,15 +1,28 @@
 import { CommandInteraction, SlashCommandBuilder } from "discord.js";
 import { config } from "../config";
-import { getConfiguration, getCurrentMonthWorksheet } from "../spreadsheet";
+import { getConfiguration, getCurrentMonthWorksheet, getWorksheet } from "../spreadsheet";
 import { insertNewPurchase } from "src/insert-new-purchase";
+import { commandMonthChoices } from "./command-month-choices";
 
 export const data = new SlashCommandBuilder()
     .setName("pay")
-    .setDescription("Pay off any outstanding balances for the current month");
+    .setDescription("Pay off any outstanding balances for the current month")
+    .addStringOption((option) =>
+        option
+            .setName("month")
+            .setDescription("The month to pay off the balance for")
+            .addChoices(...commandMonthChoices)
+            .setRequired(false)
+    );
 
 export async function execute(interaction: CommandInteraction) {
     try {
-        const worksheet = await getCurrentMonthWorksheet();
+        const monthArg = interaction.options.get("month");
+
+        const worksheet = monthArg?.value
+            ? await getWorksheet(monthArg.value.toString())
+            : await getCurrentMonthWorksheet();
+
         const configuration = await getConfiguration();
         await worksheet.loadCells(config.WORKSHEET_TOTAL_OWING_CELL);
         const value = worksheet
