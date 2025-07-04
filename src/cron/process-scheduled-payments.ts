@@ -18,7 +18,7 @@ import {Preferences} from "@app/spreadsheet/enums/preferences";
 
 export const processScheduledPayments = CronJob.from({
     cronTime: `0 ${config.SCHEDULED_PAYMENTS_HOUR_TO_EXECUTE} * * *`,
-    utcOffset: Number(config.SCHEDULED_PAYMENTS_TIMEZONE_OFFSET),
+    utcOffset: Number(config.TIMEZONE_OFFSET),
     onTick: async function () {
         console.log('Processing scheduled payments...');
         const scheduledPayments = await scheduledPaymentsSheet.getAll();
