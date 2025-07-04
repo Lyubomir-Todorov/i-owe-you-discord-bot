@@ -17,12 +17,12 @@ The short message syntax also works well for quickly adding entries using your p
 
 ## Submitting Entries
 
-Messages are parsed using regular expressions and consist of four parts:
+Messages are parsed using an LLM and consist of four parts:
 
 ### Required arguments
 
--   `Amount` - The first occurrence of a decimal or whole number is assumed to be the amount
--   `Description` - Text that excludes the name, amount, and category will be used as the description
+-   `Amount` - The cost of the purchase
+-   `Description` - The description of what was purchased
 
 ### Optional arguments
 
@@ -31,6 +31,8 @@ Messages are parsed using regular expressions and consist of four parts:
     -   If no name is found, the name of the user who submitted the message will be used
 -   `Category` - Text that matches one of the configured categories / category keywords will be used as the category
     -   If no category is found, the default category will be used
+-   `Split` - How the purchase should be divided, this can either by `50/50`, or `Paid in full by other`
+    -   By default, this is assumed to be `50/50` 
 
 ### Full length message example
 
@@ -74,7 +76,7 @@ From the JSON file, Add `client_email` as the value for `GOOGLE_SERVICE_ACCOUNT_
 
 ## Setting up the spreadsheet
 
--   Create a copy of the spreadsheet from [here](https://docs.google.com/spreadsheets/d/1q5OcvyquNueBPlrWIpHoLVws0KlqHMnxC8Mc56Tnki8/copy#gid=1759934342)
+-   Create a copy of the spreadsheet from [here](https://docs.google.com/spreadsheets/d/1q1HUeqKJajuoatVEWKznHumix4eqtkqrik-XKWadWgw/copy)
 -   Share the spreadsheet with the `client_email` value, make sure to give it **Edit** permissions
 -   Populate the cells found in the `Configuration` worksheet.
 -   Copy the `Spreadsheet ID` from the URL of the spreadsheet and add it to `GOOGLE_SHEETS_SPREADSHEET_ID` in your `.env` file
@@ -86,6 +88,10 @@ https://docs.google.com/spreadsheets/d/<SPREADSHEET ID>/edit#gid=0
 ```
 
 ## Running the bot
+
+### Prerequisites
+
+- The application expects `ollama` to be running on the same address with the following model: `llama3.1:8b`
 
 ### Local development
 
