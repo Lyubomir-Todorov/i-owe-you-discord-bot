@@ -4,8 +4,11 @@
 
 This bot keeps track of your financial exchanges with a roommate or friend, storing data securely in a Google Sheets file. It allows for easy submission of new entries and quick balance checks, all within your Discord server.
 
-![Interaction with the bot](https://github.com/Lyubomir-Todorov/i-owe-you-discord-bot/assets/73316704/7c3532c4-85d2-4ba7-a0e1-83ed953f84fd)
-![Overview of the spreadsheet](https://github.com/Lyubomir-Todorov/i-owe-you-discord-bot/assets/73316704/47ebb451-b39c-49a7-9abd-6c72f36dd550)
+
+<img width="675" alt="Sending and receiving a message to the bot" src="https://github.com/user-attachments/assets/a7ffc4ad-9a0d-4449-bbb5-4a47ea5c121b" />
+
+
+<img width="1449" alt="Overview of the spreadseet" src="https://github.com/user-attachments/assets/7ff32b47-b4be-418d-b7d5-d04e70131b6c" />
 
 ## Why Use This Bot?
 
