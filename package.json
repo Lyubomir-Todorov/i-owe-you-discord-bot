@@ -48,8 +48,8 @@
   },
   "scripts": {
     "dev": "tsx watch src/main.ts",
-    "start": "node dist/index.js",
-    "build": "tsup src/index.ts --minify",
+    "start": "node dist/main.js",
+    "build": "tsup src/main.ts --minify",
     "test": "jest --config jest.config.ts"
   },
   "repository": {
