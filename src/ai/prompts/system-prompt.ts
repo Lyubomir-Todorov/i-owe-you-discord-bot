@@ -21,6 +21,7 @@ You must extract the following properties from the user's message:
         2.  If no payee is explicitly mentioned, assume the user logging the purchase is the payee. Match their "User Discord ID" (provided in the message context) to a "Discord ID" in the "Available Payees" list and use that payee's **full name**.
     - The output for "paidBy" MUST be the **Name** of the person as listed in "Available Payees". If no valid payee can be identified after checking the list, return "Unknown".
 - "descriptionOfPurchase": The description of the purchase.
+    - Don't include the price of the purchase in the description
 - "amount": The amount of the purchase.
     - This should be a number, ignoring any currency symbols. Can be a whole number or a decimal.
 - "category": The category of the purchase.
