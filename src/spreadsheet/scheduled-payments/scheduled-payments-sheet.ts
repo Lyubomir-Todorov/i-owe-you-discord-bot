@@ -11,7 +11,7 @@ export const scheduledPaymentsSheet = {
     },
     toScheduledPayment(row: GoogleSpreadsheetRow): ScheduledPayment {
         return {
-            enabled: row.get(config.SCHEDULED_PAYMENTS_COL_DISABLED) === 'FALSE',
+            enabled: row.get(config.SCHEDULED_PAYMENTS_COL_DISABLED) !== 'TRUE',
             purchase: row.get(config.SCHEDULED_PAYMENTS_COL_DESCRIPTION) as string,
             amount: parseFloat((row.get(config.SCHEDULED_PAYMENTS_COL_AMOUNT) as string).replace(/[^0-9.-]+/g, "")),
             category: row.get(config.SCHEDULED_PAYMENTS_COL_CATEGORY) as string,
