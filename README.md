@@ -45,7 +45,8 @@ John spent $12.48 for Netflix in subscriptions
 
 ### Shortened message example
 
-Assuming Netflix is a keyword for the subscriptions category, the example above can be shortened to:
+Assuming Netflix is a keyword for the subscriptions category, and the user sending the message is John, 
+the example above can be shortened to:
 
 ```
 12.48 Netflix
@@ -111,6 +112,14 @@ https://docs.google.com/spreadsheets/d/<SPREADSHEET ID>/edit#gid=0
 
 ## Setting up in your server
 
+-   If you haven't already enabled developer mode in Discord, go to settings > advanced, and enable developer mode.
+    This will allow you to copy IDs for servers and channels.
+-   Right click on the server you want to add the bot to and select `Copy Server ID`
+    -   Add the server ID to `DISCORD_GUILD_ID` in your `.env` file
+-   Right click on the text channel you want to use to interact with the bot and select `Copy Channel ID`
+    -   Add the channel ID to `DISCORD_CHANNEL_ID` in your `.env` file
+
+
 -   Create a new Discord application and bot [here](https://discord.com/developers/applications)
 -   Copy the bot token and add it to `DISCORD_TOKEN` in your `.env` file
 -   Under `Bot`, enable `SERVER MEMBERS INTENT` and `MESSAGE CONTENT INTENT`
@@ -122,4 +131,3 @@ https://docs.google.com/spreadsheets/d/<SPREADSHEET ID>/edit#gid=0
     ![Discord OAuth2](https://github.com/Lyubomir-Todorov/i-owe-you-discord-bot/assets/73316704/a4518787-3848-454c-8ae1-0f70ab5c58b3)
 
 -   Finally, head to `Installation`. Set `Install link` to `Discord provided link` and use it to invite the bot to your server
--   Create a text channel strictly for the bot to post messages in. This is where the bot will post balance updates and other messages. Restrict permissions to only allow the bot to send messages in this channel.
