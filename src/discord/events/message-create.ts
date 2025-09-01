@@ -48,18 +48,13 @@ export async function onMessageCreate(message: Message) {
             .setLabel('Edit')
             .setStyle(ButtonStyle.Secondary);
 
-        const deleteButton = new ButtonBuilder()
-            .setCustomId(CustomId.DELETE_BUTTON)
-            .setLabel('Delete')
-            .setStyle(ButtonStyle.Danger);
-
         const rows = [
-            new ActionRowBuilder<ButtonBuilder>().addComponents(editButton, deleteButton),
+            new ActionRowBuilder<ButtonBuilder>().addComponents(editButton),
         ]
 
         await processingMessage.edit({
             content: `${bold(payee)} spent ${bold(amount.toFixed(2))} in ${bold(actualCategory)} on the following: ${codeBlock(descriptionOfPurchase)}`,
-            components: [...rows]
+            components: [...rows],
         });
         await processingMessage.react('✅');
     } catch (error) {
