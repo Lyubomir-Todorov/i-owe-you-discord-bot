@@ -107,9 +107,10 @@ export const processScheduledPayments = CronJob.from({
 
         const message = `${messageHeading}\n${messageBody}`;
 
-        discordClient.channels.cache.forEach((channel) => {
-            if (channel.isTextBased()) channel.send(message);
-        });
+        const textChannel = discordClient.channels.cache.get(config.DISCORD_CHANNEL_ID!)
+        if (!!textChannel && textChannel.isTextBased()) {
+            textChannel.send(message);
+        }
     },
     start: false,
 });

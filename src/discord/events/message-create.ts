@@ -11,6 +11,8 @@ export async function onMessageCreate(message: Message) {
     if (message.author.bot) return;
 
     try {
+        if (message.channelId !== config.DISCORD_CHANNEL_ID) return;
+
         const fallbackCategoryPromise = computationSheet.getById(Computations.DEFAULT_CATEGORY);
         const processingMessagePromise = message.reply("Processing your request...");
 

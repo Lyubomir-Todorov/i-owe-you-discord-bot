@@ -29,11 +29,10 @@ export const remindOutstandingBalance = CronJob.from({
 
         const message = `${messageHeading}\n${messageBody}`;
 
-        discordClient.channels.cache.forEach((channel) => {
-            if (channel.isTextBased()) channel.send({
-                content: message
-            });
-        });
+        const textChannel = discordClient.channels.cache.get(config.DISCORD_CHANNEL_ID!)
+        if (!!textChannel && textChannel.isTextBased()) {
+            textChannel.send(message);
+        }
     },
     start: false,
 });
