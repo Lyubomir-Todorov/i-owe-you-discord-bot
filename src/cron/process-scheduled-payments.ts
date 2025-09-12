@@ -15,6 +15,8 @@ import {ScheduledPayment} from "@app/models/scheduled-payment";
 import {heading, HeadingLevel} from "discord.js";
 import {preferenceSheet} from "@app/spreadsheet/preferences/preference-sheet";
 import {Preferences} from "@app/spreadsheet/enums/preferences";
+import {peopleSheet} from "@app/spreadsheet/people/people-sheet";
+import {SplitType} from "@app/enums/split-type";
 
 export const processScheduledPayments = CronJob.from({
     cronTime: `0 ${config.SCHEDULED_PAYMENTS_HOUR_TO_EXECUTE} * * *`,
@@ -22,6 +24,7 @@ export const processScheduledPayments = CronJob.from({
     onTick: async function () {
         console.log('Processing scheduled payments...');
         const scheduledPayments = await scheduledPaymentsSheet.getAll();
+        const people = await peopleSheet.getAll();
 
         if (scheduledPayments.length === 0) {
             console.log('No scheduled payments to process...');
@@ -81,7 +84,7 @@ export const processScheduledPayments = CronJob.from({
                     amount: scheduledPayment.amount,
                     category: scheduledPayment.category,
                     paidBy: scheduledPayment.paidBy,
-                    splitMethod: config.SPLIT_TYPE_HALF,
+                    splitMethod: scheduledPayment.splitType,
                     transactionId: ""
                 });
                 successfulPaymentsMade.push(scheduledPayment);
@@ -102,7 +105,19 @@ export const processScheduledPayments = CronJob.from({
 
         const messageHeading = heading(`The following scheduled payments were made: \n`, HeadingLevel.Three);
         const messageBody = successfulPaymentsMade.map((s) => {
-            return `* A ${s.frequency} \$${s.amount} purchase for ${s.purchase} under ${s.category}, made by ${s.paidBy}`;
+            const baseMessage = `* A ${s.frequency} \$${s.amount} purchase for ${s.purchase} under ${s.category}, made by ${s.paidBy},`;
+            if (s.splitType === SplitType.HALF) {
+                return `${baseMessage} to be split 50/50.`;
+            }
+
+            // TODO This has the potential to return the wrong person if both people use duplicate names, should be addressed in the future by potentially using Discord IDs instead.
+            const otherPerson = people.find(p => p.name !== s.paidBy);
+
+            if (!otherPerson) {
+                return `${baseMessage} to be paid entirely by the other person.`;
+            }
+
+            return `${baseMessage} to be paid entirely by ${otherPerson.name}.`;
         }).join("\n");
 
         const message = `${messageHeading}\n${messageBody}`;
