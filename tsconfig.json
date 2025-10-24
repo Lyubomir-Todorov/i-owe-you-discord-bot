@@ -16,7 +16,10 @@
         "removeComments": true,
         "typeRoots": ["node_modules/@types"],
         "sourceMap": false,
-        "baseUrl": "./"
+        "baseUrl": "./",
+        "paths": {
+            "@app/*": ["./src/*"]
+        }
     },
     "include": ["./**/*.ts"],
     "exclude": ["node_modules", "dist"]

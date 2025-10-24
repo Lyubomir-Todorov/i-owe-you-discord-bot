@@ -1,1 +1,0 @@
-export type Purchaser = "person1" | "person2";

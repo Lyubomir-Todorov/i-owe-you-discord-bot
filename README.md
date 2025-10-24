@@ -4,8 +4,11 @@
 
 This bot keeps track of your financial exchanges with a roommate or friend, storing data securely in a Google Sheets file. It allows for easy submission of new entries and quick balance checks, all within your Discord server.
 
-![Interaction with the bot](https://github.com/Lyubomir-Todorov/i-owe-you-discord-bot/assets/73316704/7c3532c4-85d2-4ba7-a0e1-83ed953f84fd)
-![Overview of the spreadsheet](https://github.com/Lyubomir-Todorov/i-owe-you-discord-bot/assets/73316704/47ebb451-b39c-49a7-9abd-6c72f36dd550)
+
+<img width="675" alt="Sending and receiving a message to the bot" src="https://github.com/user-attachments/assets/a7ffc4ad-9a0d-4449-bbb5-4a47ea5c121b" />
+
+
+<img width="1449" alt="Overview of the spreadseet" src="https://github.com/user-attachments/assets/7ff32b47-b4be-418d-b7d5-d04e70131b6c" />
 
 ## Why Use This Bot?
 
@@ -21,8 +24,8 @@ Messages are parsed using regular expressions and consist of four parts:
 
 ### Required arguments
 
--   `Amount` - The first occurrence of a decimal or whole number is assumed to be the amount
--   `Description` - Text that excludes the name, amount, and category will be used as the description
+-   `Amount` - The cost of the purchase
+-   `Description` - The description of what was purchased
 
 ### Optional arguments
 
@@ -31,6 +34,8 @@ Messages are parsed using regular expressions and consist of four parts:
     -   If no name is found, the name of the user who submitted the message will be used
 -   `Category` - Text that matches one of the configured categories / category keywords will be used as the category
     -   If no category is found, the default category will be used
+-   `Split` - How the purchase should be divided, this can either by `50/50`, or `Paid in full by other`
+    -   By default, this is assumed to be `50/50` 
 
 ### Full length message example
 
@@ -74,7 +79,7 @@ From the JSON file, Add `client_email` as the value for `GOOGLE_SERVICE_ACCOUNT_
 
 ## Setting up the spreadsheet
 
--   Create a copy of the spreadsheet from [here](https://docs.google.com/spreadsheets/d/1q5OcvyquNueBPlrWIpHoLVws0KlqHMnxC8Mc56Tnki8/copy#gid=1759934342)
+-   Create a copy of the spreadsheet from [here](https://docs.google.com/spreadsheets/d/1q1HUeqKJajuoatVEWKznHumix4eqtkqrik-XKWadWgw/copy)
 -   Share the spreadsheet with the `client_email` value, make sure to give it **Edit** permissions
 -   Populate the cells found in the `Configuration` worksheet.
 -   Copy the `Spreadsheet ID` from the URL of the spreadsheet and add it to `GOOGLE_SHEETS_SPREADSHEET_ID` in your `.env` file
@@ -102,6 +107,14 @@ https://docs.google.com/spreadsheets/d/<SPREADSHEET ID>/edit#gid=0
 
 ## Setting up in your server
 
+-   If you haven't already enabled developer mode in Discord, go to settings > advanced, and enable developer mode.
+    This will allow you to copy IDs for servers and channels.
+-   Right click on the server you want to add the bot to and select `Copy Server ID`
+    -   Add the server ID to `DISCORD_GUILD_ID` in your `.env` file
+-   Right click on the text channel you want to use to interact with the bot and select `Copy Channel ID`
+    -   Add the channel ID to `DISCORD_CHANNEL_ID` in your `.env` file
+
+
 -   Create a new Discord application and bot [here](https://discord.com/developers/applications)
 -   Copy the bot token and add it to `DISCORD_TOKEN` in your `.env` file
 -   Under `Bot`, enable `SERVER MEMBERS INTENT` and `MESSAGE CONTENT INTENT`
@@ -113,4 +126,3 @@ https://docs.google.com/spreadsheets/d/<SPREADSHEET ID>/edit#gid=0
     ![Discord OAuth2](https://github.com/Lyubomir-Todorov/i-owe-you-discord-bot/assets/73316704/a4518787-3848-454c-8ae1-0f70ab5c58b3)
 
 -   Finally, head to `Installation`. Set `Install link` to `Discord provided link` and use it to invite the bot to your server
--   Create a text channel strictly for the bot to post messages in. This is where the bot will post balance updates and other messages. Restrict permissions to only allow the bot to send messages in this channel.
