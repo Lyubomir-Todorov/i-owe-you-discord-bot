@@ -1,11 +1,12 @@
 import {ActionRowBuilder, bold, ButtonBuilder, ButtonStyle, codeBlock, Message} from "discord.js";
 import {purchasesSheet} from "@app/spreadsheet/purchases/purchases-sheet";
-import {guardRail} from "@app/ai/agent/guard-rail";
-import {parseMessage} from "@app/ai/agent/parse-message";
 import {CustomId} from "@app/discord/enums/custom-id";
 import {config} from "@app/config";
 import {computationSheet} from "@app/spreadsheet/computations/computation-sheet";
 import {Computations} from "@app/spreadsheet/enums/computations";
+import {categorySheet} from "@app/spreadsheet/categories/category-sheet";
+import {peopleSheet} from "@app/spreadsheet/people/people-sheet";
+import {parseMessage} from "@app/extraction/parse-message";
 
 export async function onMessageCreate(message: Message) {
     if (message.author.bot) return;
@@ -13,25 +14,28 @@ export async function onMessageCreate(message: Message) {
     try {
         if (message.channelId !== config.DISCORD_CHANNEL_ID) return;
 
+        const allCategoriesPromise = categorySheet.getAll();
+        const allPeoplePromise = peopleSheet.getAll();
         const fallbackCategoryPromise = computationSheet.getById(Computations.DEFAULT_CATEGORY);
         const processingMessagePromise = message.reply("Processing your request...");
 
-        const isLegitimateRequest = await guardRail(message.content);
+        const [allCategories, allPeople, fallbackCategory, processingMessage] = await Promise.all([
+            await allCategoriesPromise,
+            await allPeoplePromise,
+            await fallbackCategoryPromise,
+            await processingMessagePromise,
+        ]);
 
-        if (!isLegitimateRequest) {
-            const processingMessage = await processingMessagePromise;
-            processingMessage.edit("Your request does not meet the necessary criteria for processing. Please ensure your message is clear and relevant.").then();
-            return;
-        }
+        const response = parseMessage(message.content, allPeople, allCategories);
+        const {descriptionOfPurchase, amount, category, paidBy} = response;
 
-        const response = await parseMessage(message.content, message.author.id)
-        const {descriptionOfPurchase, amount, category, paidBy, splitMethod} = response;
-
-        const fallbackCategory = await fallbackCategoryPromise;
-        const processingMessage = await processingMessagePromise;
-
-        const payee = paidBy || message.author.username;
+        const payee = paidBy || allPeople.find(person => person.discordId === message.author.id)?.name || "";
         const actualCategory = category || fallbackCategory?.value || "";
+
+        if (!payee || !descriptionOfPurchase || !amount || !actualCategory) {
+            console.log(payee, descriptionOfPurchase, amount, actualCategory);
+            throw new Error("Invalid input. Please provide a name, description, amount, and category.");
+        }
 
         await purchasesSheet.insert({
             date: new Date(),
@@ -39,7 +43,7 @@ export async function onMessageCreate(message: Message) {
             amount: amount,
             category: actualCategory,
             paidBy: payee,
-            splitMethod: splitMethod || config.SPLIT_TYPE_HALF,
+            splitMethod: config.SPLIT_TYPE_HALF,
             transactionId: processingMessage.id
         });
 

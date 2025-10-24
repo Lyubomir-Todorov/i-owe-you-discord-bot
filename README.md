@@ -20,7 +20,7 @@ The short message syntax also works well for quickly adding entries using your p
 
 ## Submitting Entries
 
-Messages are parsed using an LLM and consist of four parts:
+Messages are parsed using regular expressions and consist of four parts:
 
 ### Required arguments
 
@@ -92,10 +92,6 @@ https://docs.google.com/spreadsheets/d/<SPREADSHEET ID>/edit#gid=0
 ```
 
 ## Running the bot
-
-### Prerequisites
-
-- The application expects `ollama` to be running on the same address with the following model: `llama3.1:8b`
 
 ### Local development
 
