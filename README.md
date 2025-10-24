@@ -45,8 +45,7 @@ John spent $12.48 for Netflix in subscriptions
 
 ### Shortened message example
 
-Assuming Netflix is a keyword for the subscriptions category, and the user sending the message is John, 
-the example above can be shortened to:
+Assuming John is the user writing this message, and Netflix is a keyword for the subscriptions category, the example above can be shortened to:
 
 ```
 12.48 Netflix
@@ -54,9 +53,9 @@ the example above can be shortened to:
 
 ## Commands
 
-`/balance` - Shows the current balance of the user
+`/balance (month)` - Shows the current balance of the user. If no month is specified, the balance of the current month will be shown
 
-`/pay` - Add an entry to pay off any outstanding balances
+`/pay (month)` - Add an entry to pay off any outstanding balances. If no month is specified, the balance will be paid off for the current month
 
 ## Installation requirements
 
@@ -68,7 +67,7 @@ _Hosting on a service such as Railway or Render is recommended. Make sure to set
 
 -   Clone the repository
 -   Create a `.env` file in the root directory with the content found in [.env.example](.env.example)
-    -   Only variables starting with `GOOGLE` and `DISCORD` are required, the rest are optional
+    -   Only variables starting with `GOOGLE` and `DISCORD` are required, the rest are optional and should only be changed if you intend on changing the layout of the spreadsheet
 
 ### Creating a service account
 
