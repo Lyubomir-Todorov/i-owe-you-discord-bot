@@ -17,8 +17,8 @@ export const categorySheet: IReadableSheet<Category> = {
 }
 
 const getCategoriesCached = createAsyncCache(async () => {
-    const people = await computationSheet.getById(Computations.ALL_CATEGORIES);
-    return decodeCategories(people?.value || "");
+    const categories = await computationSheet.getById(Computations.ALL_CATEGORIES);
+    return decodeCategories(categories?.value || "");
 }, CATEGORY_CACHE_DURATION_MS, 'allCategories');
 
 function decodeCategories(encodedValue: string): Category[] {
@@ -28,7 +28,7 @@ function decodeCategories(encodedValue: string): Category[] {
     return delimitedCategories.map(category => {
         return {
             name: category.match(nameRegex)?.[1] || "",
-            keywords: category.match(keywordsRegex)?.map(keyword => keyword.replace(/<a>|<\/a>/g, "")) || []
+            keywords: category.match(keywordsRegex)?.map(keyword => keyword.replace(/<k>|<\/k>/g, "")) || []
         }
     });
 }
