@@ -20,7 +20,7 @@ The short message syntax also works well for quickly adding entries using your p
 
 ## Submitting Entries
 
-Messages are parsed using regular expressions and consist of four parts:
+Depending on how you've set your environment variables, messages are parsed using either an LLM or regular expressions and consist of four parts:
 
 ### Required arguments
 
@@ -89,6 +89,13 @@ _The spreadsheet ID can be found in the URL of the spreadsheet:_
 ```
 https://docs.google.com/spreadsheets/d/<SPREADSHEET ID>/edit#gid=0
 ```
+
+## Configuring for use with LLMs (OPTIONAL)
+
+This project uses Google's Gemini API to perform natural language processing.
+To get an API key, visit https://aistudio.google.com/api-keys.
+
+Once you have a key, add it to your `.env` file as `GOOGLE_GEMINI_API_KEY`.
 
 ## Running the bot
 
