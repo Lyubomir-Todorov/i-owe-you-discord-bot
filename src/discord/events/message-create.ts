@@ -7,6 +7,8 @@ import {Computations} from "@app/spreadsheet/enums/computations";
 import {categorySheet} from "@app/spreadsheet/categories/category-sheet";
 import {peopleSheet} from "@app/spreadsheet/people/people-sheet";
 import {parseMessage} from "@app/extraction/parse-message";
+import {ParsedMessage} from "@app/models/parsed-message";
+import {parseMessageUsingLLM} from "@app/ai/parse-message-using-llm";
 
 export async function onMessageCreate(message: Message) {
     if (message.author.bot) return;
@@ -26,7 +28,14 @@ export async function onMessageCreate(message: Message) {
             await processingMessagePromise,
         ]);
 
-        const response = parseMessage(message.content, allPeople, allCategories);
+        let response: ParsedMessage;
+
+        if (config.GEMINI_API_KEY) {
+            response = await parseMessageUsingLLM(message.content, allCategories, fallbackCategory?.value || "");
+        } else {
+            response = parseMessage(message.content, allPeople, allCategories);
+        }
+
         const {descriptionOfPurchase, amount, category, paidBy} = response;
 
         const payee = paidBy || allPeople.find(person => person.discordId === message.author.id)?.name || "";
