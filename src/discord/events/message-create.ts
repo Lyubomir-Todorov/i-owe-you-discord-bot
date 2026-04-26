@@ -30,7 +30,7 @@ export async function onMessageCreate(message: Message) {
 
         let response: ParsedMessage;
 
-        if (config.GEMINI_API_KEY) {
+        if (config.ANTHROPIC_API_KEY) {
             response = await parseMessageUsingLLM(message.content, allCategories, fallbackCategory?.value || "");
         } else {
             response = parseMessage(message.content, allPeople, allCategories);

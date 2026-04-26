@@ -1,55 +1,55 @@
-import {GoogleGenAI} from "@google/genai";
 import {ParsedMessage} from "@app/models/parsed-message";
-import {STRUCTURED_OUTPUT} from "@app/ai/structured-output";
 import {SYSTEM_PROMPT} from "@app/ai/system-prompt";
 import {Category} from "@app/models/category";
 import {config as environmentConfig} from "@app/config";
+import {Anthropic} from "@anthropic-ai/sdk";
+
+const MODEL = 'claude-haiku-4-5'
 
 export async function parseMessageUsingLLM(message: string, allCategories: Category[], defaultCategory: string): Promise<ParsedMessage> {
-    const ai = new GoogleGenAI({
-        apiKey: environmentConfig.GEMINI_API_KEY
+    const client = new Anthropic({
+        apiKey: environmentConfig.ANTHROPIC_API_KEY
     });
 
-    const config = {
-        thinkingConfig: {
-            thinkingBudget: 0,
-        },
-        responseMimeType: 'application/json',
-        responseSchema: STRUCTURED_OUTPUT,
-        systemInstruction: [
+    console.info(`Using ${MODEL} to parse user message...`)
+
+    const output = await client.messages.parse({
+        max_tokens: 1024,
+        system: SYSTEM_PROMPT(JSON.stringify(allCategories), defaultCategory),
+        messages: [
             {
-                text: SYSTEM_PROMPT(JSON.stringify(allCategories), defaultCategory),
+                role: "user", content: message
             }
         ],
-    };
-    const model = 'gemini-flash-lite-latest';
-    const contents = [
-        {
-            role: 'user',
-            parts: [
-                {
-                    text: message,
-                },
-            ],
-        },
-    ];
-
-    const response = await ai.models.generateContent({
-        model,
-        config,
-        contents,
+        model: MODEL,
+        output_config: {
+            format: {
+                type: "json_schema",
+                schema: {
+                    type: "object",
+                    properties: {
+                        paidBy: {type: "string"},
+                        purchaseDescription: {type: "string"},
+                        purchaseAmount: {type: "number"},
+                        category: {type: "string"},
+                    },
+                    required: ["paidBy", "purchaseDescription", "purchaseAmount", "category"],
+                    additionalProperties: false
+                }
+            }
+        }
     });
 
-    if (!response.text) {
-        throw new Error('No response from LLM');
+    console.info(`Used ${output.usage.output_tokens} tokens to perform operation`);
+
+    if (!output.parsed_output) {
+        throw new Error('Failed to parse message using LLM');
     }
 
-    const responseBody = JSON.parse(response.text);
-
     return {
-        paidBy: responseBody.paidBy,
-        descriptionOfPurchase: responseBody.purchaseDescription,
-        amount: responseBody.purchaseAmount,
-        category: responseBody.category,
+        paidBy: output.parsed_output['paidBy'],
+        descriptionOfPurchase: output.parsed_output['purchaseDescription'],
+        amount: output.parsed_output['purchaseAmount'],
+        category: output.parsed_output['category'],
     };
 }

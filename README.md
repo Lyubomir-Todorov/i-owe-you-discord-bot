@@ -92,10 +92,10 @@ https://docs.google.com/spreadsheets/d/<SPREADSHEET ID>/edit#gid=0
 
 ## Configuring for use with LLMs (OPTIONAL)
 
-This project uses Google's Gemini API to perform natural language processing.
-To get an API key, visit https://aistudio.google.com/api-keys.
+This project uses Anthropic's SDK to perform natural language processing.
+To get an API key, visit https://platform.claude.com/.
 
-Once you have a key, add it to your `.env` file as `GOOGLE_GEMINI_API_KEY`.
+Once you have a key, add it to your `.env` file as `ANTHROPIC_API_KEY`.
 
 ## Running the bot
 
