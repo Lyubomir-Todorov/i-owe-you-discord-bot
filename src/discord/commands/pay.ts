@@ -1,13 +1,9 @@
-import {CommandInteraction, SlashCommandBuilder} from "discord.js";
+import {CommandInteraction} from "discord.js";
 import {computationSheet} from "@app/spreadsheet/computations/computation-sheet";
 import {Computations} from "@app/spreadsheet/enums/computations";
 import {peopleSheet} from "@app/spreadsheet/people/people-sheet";
 import {purchasesSheet} from "@app/spreadsheet/purchases/purchases-sheet";
 import {SplitType} from "@app/enums/split-type";
-
-export const data = new SlashCommandBuilder()
-    .setName("pay")
-    .setDescription("Pay off any outstanding balances");
 
 export async function execute(interaction: CommandInteraction) {
     try {

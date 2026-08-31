@@ -4,13 +4,11 @@ import {discordClient} from "@app/discord/discord-client";
 import {purchasesSheet} from "@app/spreadsheet/purchases/purchases-sheet";
 import {config} from "@app/config";
 import {ScheduledPaymentFrequency} from "@app/spreadsheet/enums/scheduled-payment-frequency";
-import {
-    differenceInDays,
-    differenceInMonths,
-    differenceInQuarters,
-    differenceInWeeks,
-    differenceInYears
-} from "date-fns";
+import {differenceInDays} from "date-fns/differenceInDays";
+import {differenceInMonths} from "date-fns/differenceInMonths";
+import {differenceInQuarters} from "date-fns/differenceInQuarters";
+import {differenceInWeeks} from "date-fns/differenceInWeeks";
+import {differenceInYears} from "date-fns/differenceInYears";
 import {ScheduledPayment} from "@app/models/scheduled-payment";
 import {heading, HeadingLevel} from "discord.js";
 import {preferenceSheet} from "@app/spreadsheet/preferences/preference-sheet";

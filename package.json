@@ -2,34 +2,15 @@
   "name": "i-owe-you-discord-bot",
   "version": "2.0.0",
   "description": "A discord bot that keeps track of expenses in Google Sheets",
-  "main": "index.ts",
+  "main": "src/main.ts",
   "dependencies": {
     "@anthropic-ai/sdk": "^0.91.1",
-    "asynckit": "^0.4.0",
-    "axios": "1.15.0",
-    "busboy": "^1.6.0",
-    "combined-stream": "^1.0.8",
     "cron": "^3.1.7",
     "date-fns": "^3.6.0",
-    "delayed-stream": "^1.0.0",
     "discord.js": "^14.14.1",
     "dotenv": "^16.4.5",
-    "fast-deep-equal": "^3.1.3",
-    "follow-redirects": "1.16.0",
-    "form-data": "4.0.4",
     "google-auth-library": "^8.9.0",
-    "google-spreadsheet": "^4.1.1",
-    "lodash": "4.18.0",
-    "lodash.snakecase": "^4.1.1",
-    "magic-bytes.js": "^1.0.15",
-    "mime": "^4.1.0",
-    "mime-db": "^1.52.0",
-    "mime-types": "^2.1.35",
-    "proxy-from-env": "^1.1.0",
-    "streamsearch": "^1.1.0",
-    "ts-mixer": "^6.0.3",
-    "undici": "7.24.0",
-    "ws": "8.17.1"
+    "google-spreadsheet": "^4.1.1"
   },
   "devDependencies": {
     "@babel/core": "^7.24.7",
@@ -50,8 +31,9 @@
   "scripts": {
     "dev": "tsx watch src/main.ts",
     "start": "node dist/main.js",
-    "build": "tsup src/main.ts --minify",
-    "test": "jest --config jest.config.ts"
+    "build": "tsup src/main.ts src/scripts/deploy-commands.ts --minify",
+    "test": "jest --config jest.config.ts",
+    "deploy-commands": "node dist/scripts/deploy-commands.js"
   },
   "repository": {
     "type": "git",
@@ -62,5 +44,8 @@
   "bugs": {
     "url": "https://github.com/Lyubomir-Todorov/i-owe-you-discord-bot/issues"
   },
-  "homepage": "https://github.com/Lyubomir-Todorov/i-owe-you-discord-bot#readme"
+  "homepage": "https://github.com/Lyubomir-Todorov/i-owe-you-discord-bot#readme",
+  "overrides": {
+    "lodash": "4.17.21"
+  }
 }

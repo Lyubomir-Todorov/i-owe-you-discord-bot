@@ -6,8 +6,6 @@ import {config} from "@app/config";
 export const computationSheet: IReadableSheet<Computation> = {
     async getAll(): Promise<Computation[]> {
         const sheet = googleSheetsClient.sheetsByTitle[config.COMPUTATIONS_SHEET_NAME];
-        await sheet.loadCells();
-
         const data = await sheet.getRows();
         return data.map(row => {
             return {

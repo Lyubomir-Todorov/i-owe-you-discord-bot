@@ -1,7 +1,7 @@
 import {Purchase} from "@app/models/purchase";
 import {Computations} from "@app/spreadsheet/enums/computations";
 import {Preferences} from "@app/spreadsheet/enums/preferences";
-import {addMonths} from "date-fns";
+import {addMonths} from "date-fns/addMonths";
 
 jest.mock("@app/config", () => ({
     config: {

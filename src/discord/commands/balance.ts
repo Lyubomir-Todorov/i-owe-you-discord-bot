@@ -1,11 +1,7 @@
-import { CommandInteraction, SlashCommandBuilder } from "discord.js";
+import {CommandInteraction} from "discord.js";
 import {peopleSheet} from "@app/spreadsheet/people/people-sheet";
 import {computationSheet} from "@app/spreadsheet/computations/computation-sheet";
 import {Computations} from "@app/spreadsheet/enums/computations";
-
-export const data = new SlashCommandBuilder()
-    .setName("balance")
-    .setDescription("Displays the current balance");
 
 export async function execute(interaction: CommandInteraction) {
     try {

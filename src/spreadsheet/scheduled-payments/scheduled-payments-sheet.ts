@@ -7,7 +7,6 @@ import {SplitType} from "@app/enums/split-type";
 export const scheduledPaymentsSheet = {
     async getAll(): Promise<GoogleSpreadsheetRow[]> {
         const sheet = googleSheetsClient.sheetsByTitle[config.SCHEDULED_PAYMENTS_SHEET_NAME];
-        await sheet.loadCells();
         return await sheet.getRows();
     },
     toScheduledPayment(row: GoogleSpreadsheetRow): ScheduledPayment {

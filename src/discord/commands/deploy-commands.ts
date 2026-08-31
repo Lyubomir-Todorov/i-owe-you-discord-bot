@@ -1,8 +1,8 @@
 import { REST, Routes } from "discord.js";
-import { commands } from "./index";
+import { commandData } from "./command-data";
 import { config } from "@app/config";
 
-const commandsData = Object.values(commands).map((command) => command.data);
+const commandsData = commandData.map((command) => command.toJSON());
 
 const rest = new REST({ version: "10" }).setToken(config.DISCORD_TOKEN);
 

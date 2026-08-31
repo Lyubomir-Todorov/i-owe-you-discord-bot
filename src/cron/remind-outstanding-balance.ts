@@ -8,7 +8,10 @@ import {peopleSheet} from "@app/spreadsheet/people/people-sheet";
 import {preferenceSheet} from "@app/spreadsheet/preferences/preference-sheet";
 import {Preferences} from "@app/spreadsheet/enums/preferences";
 import {purchasesSheet} from "@app/spreadsheet/purchases/purchases-sheet";
-import {addMonths, format, isSameMonth, isSameYear} from "date-fns";
+import {addMonths} from "date-fns/addMonths";
+import {format} from "date-fns/format";
+import {isSameMonth} from "date-fns/isSameMonth";
+import {isSameYear} from "date-fns/isSameYear";
 import {Purchase} from "@app/models/purchase";
 
 const MAX_DESCRIPTION_LENGTH = 75;

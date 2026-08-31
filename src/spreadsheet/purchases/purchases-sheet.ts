@@ -5,8 +5,6 @@ import {config} from "@app/config";
 export const purchasesSheet = {
     async getAll(): Promise<Purchase[]> {
         const sheet = googleSheetsClient.sheetsByTitle[config.PURCHASES_SHEET_NAME];
-        await sheet.loadCells();
-
         const data = await sheet.getRows();
         return data.map(row => {
 
@@ -32,8 +30,6 @@ export const purchasesSheet = {
 
     async insert(purchase: Purchase): Promise<void> {
         const sheet = googleSheetsClient.sheetsByTitle[config.PURCHASES_SHEET_NAME];
-        await sheet.loadCells();
-
         await sheet.addRow({
             [config.PURCHASES_COL_DATE]: purchase.date.toISOString().split("T")[0],
             [config.PURCHASES_COL_DESCRIPTION]: purchase.description,
@@ -49,8 +45,6 @@ export const purchasesSheet = {
 
     async update(transactionId: string, updatedPurchase: Partial<Purchase>): Promise<void> {
         const sheet = googleSheetsClient.sheetsByTitle[config.PURCHASES_SHEET_NAME];
-        await sheet.loadCells();
-
         const rows = await sheet.getRows();
         const rowToUpdate = rows.find(row => row.get(config.PURCHASES_COL_ID) === transactionId);
 
@@ -70,10 +64,8 @@ export const purchasesSheet = {
 
     async delete(transactionId: string): Promise<void> {
         const sheet = googleSheetsClient.sheetsByTitle[config.PURCHASES_SHEET_NAME];
-        await sheet.loadCells();
-
         const rows = await sheet.getRows();
-        const rowToDelete = rows.find(row => row.get("Transaction ID") === transactionId);
+        const rowToDelete = rows.find(row => row.get(config.PURCHASES_COL_ID) === transactionId);
 
         if (rowToDelete) {
             await rowToDelete.delete();

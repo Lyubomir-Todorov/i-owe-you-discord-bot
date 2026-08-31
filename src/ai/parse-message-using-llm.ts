@@ -6,14 +6,21 @@ import {Anthropic} from "@anthropic-ai/sdk";
 
 const MODEL = 'claude-haiku-4-5'
 
-export async function parseMessageUsingLLM(message: string, allCategories: Category[], defaultCategory: string): Promise<ParsedMessage> {
-    const client = new Anthropic({
-        apiKey: environmentConfig.ANTHROPIC_API_KEY
-    });
+let client: Anthropic | null = null;
 
+function getClient(): Anthropic {
+    if (!client) {
+        client = new Anthropic({
+            apiKey: environmentConfig.ANTHROPIC_API_KEY
+        });
+    }
+    return client;
+}
+
+export async function parseMessageUsingLLM(message: string, allCategories: Category[], defaultCategory: string): Promise<ParsedMessage> {
     console.info(`Using ${MODEL} to parse user message...`)
 
-    const output = await client.messages.parse({
+    const output = await getClient().messages.parse({
         max_tokens: 1024,
         system: SYSTEM_PROMPT(JSON.stringify(allCategories), defaultCategory),
         messages: [

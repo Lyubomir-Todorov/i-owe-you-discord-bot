@@ -18,7 +18,6 @@ export const preferenceSheet: IReadableSheet<Preference> = {
 
 const getPreferencesCached = createAsyncCache(async () => {
     const sheet = googleSheetsClient.sheetsByTitle[config.PREFERENCES_SHEET_NAME];
-    await sheet.loadCells();
     const data = await sheet.getRows();
     return data.map(row => {
         return {

@@ -1,10 +1,6 @@
 import { purchasesSheet } from "@app/spreadsheet/purchases/purchases-sheet";
-import { format } from "date-fns";
-import { CommandInteraction, SlashCommandBuilder } from "discord.js";
-
-export const data = new SlashCommandBuilder()
-    .setName("overview")
-    .setDescription("Displays a list of purchases from the past month");
+import { format } from "date-fns/format";
+import {CommandInteraction} from "discord.js";
 
 export async function execute(interaction: CommandInteraction) {
     try {
